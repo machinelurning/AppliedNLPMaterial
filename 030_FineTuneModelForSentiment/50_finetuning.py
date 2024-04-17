@@ -53,7 +53,8 @@ training_args = TrainingArguments(
 #%% Trainer
 trainer = Trainer(model=model, 
                   args=training_args, 
-                  train_dataset=yelp_ds_dict['train'], eval_dataset=yelp_ds_dict['test'])
+                  train_dataset=yelp_ds_dict['train'], 
+                  eval_dataset=yelp_ds_dict['test'])
 trainer.train()
 
 # %% get losses

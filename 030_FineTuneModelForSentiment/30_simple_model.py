@@ -50,12 +50,21 @@ def tokenize_text(batch):
 yelp_encodings = train_ds.map(tokenize_text, batched=True, batch_size=128)
 # %%
 yelp_encodings.set_format('torch', columns=['input_ids', 'attention_mask', 'label'])  # encodings need to be converted to torch tensors
+
+
+
+
+
+
 def get_last_hidden_state(batch):
     inputs = {k: v for k, v in batch.items() if k in tokenizer.model_input_names}
     with torch.no_grad():
         last_hidden_state = model(**inputs).last_hidden_state
         # [:, 0] refers to CLS token for complete sentence representation
     return {'hidden_state': last_hidden_state[:, 0]}
+
+
+
 # %%
 yelp_hidden_states = yelp_encodings.map(get_last_hidden_state, batched=True, batch_size=128)  # will have additional column 'hidden_state'
 
